@@ -58,36 +58,6 @@ def process(datamerged):
 
 def send_mail(to, file):
     pass
-    # from email.mime.multipart import MIMEMultipart
-    # from email.mime.text import MIMEText
-    # import smtplib
-    # # create message object instance
-    # msg = MIMEMultipart()
-    #
-    # message = "Alignment " + file + " finished"
-    #
-    # # setup the parameters of the message
-    # password = "4L1gn3r2021"
-    # msg['From'] = "aligner@certest.bio"
-    # msg['To'] = to
-    # msg['Subject'] = "Align:"
-    #
-    # # add in the message body
-    # msg.attach(MIMEText(message, 'plain'))
-    #
-    # # create server
-    # server = smtplib.SMTP_SSL('smtp.serviciodecorreo.es', 465)
-    #
-    # # Login Credentials for sending the mail
-    # server.login(msg['From'], password)
-    # try:
-    #     # send the message via the server
-    #     server.sendmail(msg['From'], msg['To'], msg.as_string())
-    #     print("successfully sent email to %s:" % (msg['To']))
-    # except:
-    #     print("Not E-Mail specified")
-    # finally:
-    #     server.quit()
 
 
 def order_two_list(list_a, list_b):
@@ -421,15 +391,6 @@ def cover(cadena, assays_name, df_corr):
     for nb, jk in zip(assays_name, total_list):
         indexes[nb] = jk
 
-    nco5index = assays_name.index("NCO5")
-    nco11index = assays_name.index("NCO11")
-
-    nco5loc = str(c_cut[nco5index])
-    nco11loc = str(c_cut[nco11index])
-    othernco = max(total_list[0])
-
-    locs = df_corr.loc[(df_corr['NCO5'] == nco5loc) & (df_corr['NCO11'] == nco11loc)]
-
     if othernco == '0':
         mmax = locs.loc[:, 0].values[0]
     if othernco == '2':
@@ -456,50 +417,50 @@ def mutation(target1, target2, target3, target4, seq, oliname):
     variant = ''
     targets = [target1, target2, target3, target4]
     for tg in targets:
-        if tg[1] == 'NCO1':
-            if oliname == 'Reverse':
-                if seq == 'TCC--GAG-------------':
-                    variant = 'Cluster V'
-        if tg[1] == 'NCO2' and tg[5] == 'NCO5':
-            if oliname == 'Forward':
-                if seq == '------T---------------':
-                    variant = 'Sudafrica'
-                if seq == 'AAC-------------------':
-                    variant = 'AAC Mutation'
-                if seq == 'T---------------------':
-                    variant = 'India'
-            if oliname == 'Reverse':
-                if seq == '-----------------T----':
-                    variant = 'Brasil'
-                if seq == '-------------------T--':
-                    variant = 'UK-3T'
-        if tg[1] == 'NCO2' and tg[5] == 'NCO9':
-            if oliname == 'Probe':
-                if seq == '------------A----------':
-                    variant = 'P13A'
-        if tg[5] == 'N501Y':
-            if oliname == 'Forward':
-                if seq == '-----------------A----':
-                    variant = 'N501Y_F_1'
-        if tg[5] == 'NCO7':
-            if oliname == 'Probe':
-                if seq == '--T---------------------':
-                    variant = 'omicron'
-                if seq == '--T------------------G--':
-                    variant = 'BA.5'
-                if seq == '--TT--------------------':
-                    variant = 'BQ.1'
-        if tg[5] == 'NCO9':
-            if oliname == 'Forward':
-                if seq == '---------------A----':
-                    variant = 'BA.4'
-        if tg[1] == 'NCO2' and tg[5] == 'NCO4':
-            if oliname == 'Probe':
-                if seq == '----T-----------------------':
-                    variant = 'P.1.2'
-            if oliname == 'Forward':
-                if seq == 'A-AATG---------------':
-                    variant = 'B.1.1.138'
+        if tg[1] == '':
+            if oliname == '':
+                if seq == '':
+                    variant = ''
+        if tg[1] == '' and tg[5] == '':
+            if oliname == '':
+                if seq == '':
+                    variant = ''
+                if seq == '':
+                    variant = ''
+                if seq == '':
+                    variant = ''
+            if oliname == '':
+                if seq == '':
+                    variant = ''
+                if seq == '':
+                    variant = ''
+        if tg[1] == '' and tg[5] == '':
+            if oliname == '':
+                if seq == '':
+                    variant = ''
+        if tg[5] == '':
+            if oliname == '':
+                if seq == '':
+                    variant = ''
+        if tg[5] == '':
+            if oliname == '':
+                if seq == '':
+                    variant = ''
+                if seq == '':
+                    variant = ''
+                if seq == '':
+                    variant = ''
+        if tg[5] == '':
+            if oliname == '':
+                if seq == '':
+                    variant = ''
+        if tg[1] == '' and tg[5] == '':
+            if oliname == '':
+                if seq == '':
+                    variant = ''
+            if oliname == '':
+                if seq == '':
+                    variant = ''
     return variant
 
 
@@ -577,9 +538,7 @@ class MainWindow(QMainWindow, QComboBox, QApplication, QTabWidget, ali_ui.Ui_Mai
         self.ui.setupUi(self)
         self.ui.pushButtonFile.clicked.connect(self.browse_slot)
         self.ui.pushButtonFile_2.clicked.connect(self.browse_slot2)
-        # self.ui.pushButtonFile_3.clicked.connect(self.xmlparser)
         self.ui.pushButton_2.clicked.connect(self.resume)
-        # self.ui.pushButton_3.clicked.connect(self.blast)
         # ----------------------------------------------------------------------------------------------- #
 
         # ----------------------------------------------------------------------------------------------- #
@@ -713,18 +672,6 @@ class MainWindow(QMainWindow, QComboBox, QApplication, QTabWidget, ali_ui.Ui_Mai
         print(f"Code in {toc - tic:0.4f} seconds")
         print("FINISH BLAST")
 
-        '''
-        from Bio.Blast import NCBIWWW
-        fasta_string = open("primers.fasta").read()
-        result_handle = NCBIWWW.qblast("blastn", "nr", fasta_string)
-        with open("my_blast.xml", "w") as save_to:
-            save_to.write(result_handle.read())
-            result_handle.close()
-
-        with open("my_blast.xml") as result_handle:
-            print(result_handle)
-        '''
-
     def set_primers(self, s, name):
         """
         Las parametros dados son los primers y el número del ensayo.
@@ -741,89 +688,8 @@ class MainWindow(QMainWindow, QComboBox, QApplication, QTabWidget, ali_ui.Ui_Mai
         if s in emptys:
             data = ["", "", "", "", "", "", ""]
 
-        if s == "NCO2":
-            data = ["CCCCTGCATACACTAATTCTT", "AGACATGTATAGCATGGAACC", "CACACGTGGTGTTTATTACCCTGAC", "S", "NCO1", "21563",
-                    "25384"]
-        if s == "NCO2.5":
-            data = ["GTGGTGTTTATTACCCTGAC", "GGGTTATCAAACCTCTTAGTAC", "TATACATGTCTCTGG", "S", "SUK1", "21563",
-                    "25384"]
-        if s == "NCO2.6":
-            data = ["GTGGTGTTTATTACCCTGAC", "GGGTTATCAAACCTCTTAGTAC", "CCATGCTATCTCTGGG", "S", "SUK1/SUK2", "21563",
-                    "25384"]
-        if s == "NCO28":
-            data = ["ACTTCTTTTTCTTGCTTTCGTG", "AGCAGTACGCACACAATC", "CTAGTTACACTAGCCATCCTTACTGC", "E", "NCO4", "26245",
-                    "26472"]
-        if s == "NCO4":
-            data = ["CCCTGTGGGTTTTACACTTAA", "ACGATTGTGCATCAGCTGA", "CCGTCTGCGGTATGTGGAAAGGTTATGG", "ORF1ab", "NCO2",
-                    "13000", "14000"]
-        if s == "NCO5":
-            data = ["GGGGAACTTCTCCTGCTAGAAT", "CAGACATTTTGCTCTCAAGCTG", "TTGCTGCTGCTTGACAGATT", "N", "NCO2",
-                    "28274", "29533"]
-        if s == "NCO7":
-            data = ["GACCCCAAAATCAGCGAAAT", "TCTGGTTACTGCCAGTTGAATCTG", "ACCCCGCATTACGTTTGGTGGACC", "N", "NCO3",
-                    "28274", "29533"]
-        if s == "NCO9":
-            data = ["TTACAAACATTGGCCGCAAA", "GCGCGACATTCCGAAGAA", "ACAATTTGCCCCCAGCGCTTCAG", "N", "NCO2",
-                    "28274", "29533"]
-        if s == "E484K":
-            data = ["TCAAACCTTTTGAGAGAGATATT", "TGGAAACCATATGATTGTAAAGG", "ATGGTGTTAAAGG", "S", "VAR",
-                    "21563", "25384"]
-        if s == "E484Q":
-            data = ["TCAAACCTTTTGAGAGAGATATT", "TGGAAACCATATGATTGTAAAGG", "TGTTCAAGGTTT", "S", "VAR",
-                    "21563", "25384"]
-        if s == "K417N":
-            data = ["AGTCAGACAAATCGCTCCAG", "CGCAGCCTGTAAAATCATCT", "TGGAAATATTGCTGA", "S", "VAR",
-                    "21563", "25384"]
-        if s == "K417T":
-            data = ["AGTCAGACAAATCGCTCCAG", "CGCAGCCTGTAAAATCATCT", "TGGAACGATTGC", "S", "VAR",
-                    "21563", "25384"]
-        if s == "L452R":
-            data = ["CTTGATTCTAAGGTTGGTGGT", "CACCATTACAAGGTGTGCT", "TACCGGTATAGA", "S", "VAR",
-                    "21563", "25384"]
-        if s == "N501Y":
-            data = ["CACCTTGTAATGGTGTTGAAGG", "ACTACTCTGTATGGTTGGTAAC", "CCCACTTATGGT", "S", "VAR",
-                    "21563", "25384"]
-        if s == "P681R":
-            data = ["GTGCAGGTATATGCGCTAGTT", "AGTGTAGGCAATGATGGATTGA", "ATTCTCGTCGGC", "S", "VAR",
-                    "21563", "25384"]
-        if s == "NCO11":
-            data = ["AAATTTTGGGGACCAGGAAC", "TGGCACCTGTGTAGGTCAAC", "ATGTCGCGCATTGGCATGGA", "N", "NCO2-Reforzado",
-                    "28274", "29533"]
-        if s == "YIA1":
-            data = ["GACCRATCCTGTCACCTCTGAC", "AGGGCATTYTGGACAAAKCGTCTA", "CGTGCCCAGTGAGCGAGGACTGCA",
-                    "Matrix Gene (M1)", "Influenza A",
-                    "28274", "29533"]
-        if s == "YIB1":
-            data = ["GAGACACAATTGCCTACCTGCTT", "TTCTTTCCCACCGAACCAAC", "AGAAGATGGAGAAGGCAAAGCAGAACTAGC",
-                    "Matrix Gene (M1)", "Influenza B",
-                    "28274", "29533"]
-        if s == "HNV1":
-            data = ["GGCTGCTTTGAATTTTACCACAA", "TTTGGGTAGTCATAAGTCCCATTTT", "TGCGATAACACGTGCATGGAAAGTGTC",
-                    "Hemaglutinina", "Influenza A, H1N1v",
-                    "28274", "29533"]
-        if s == "RSB1":
-            data = ["GATGGCTCTTAGCAAAGTCAAGTTAA", "TGTCAATATTATCTCCTGTACTACGTTGAA",
-                    "TGATACATTAAATAAGGATCAGCTGCTGTCATCCA", "N", "Respiratoty syncitial virus B",
-                    "28274", "29533"]
-        if s == "RSA1":
-            data = ["GCTCTTAGCAAAGTCAAGTTGAATGA", "TGCTCCGTTGGATGGTGTATT", "ACACTCAACAAAGATCAACTTCTGTCATCCAGC", "N",
-                    "Respiratoty syncitial virus A",
-                    "28274", "29533"]
-        if s == "VAR11":
-            data = ["GTGACCTTGGTGCTTGTAT", "CGTAGTTGTTCAGACAATGAC", "CAACATTACTTTGA", "N", "VAO",
-                    "28274", "29533"]
-        if s == "VAR13":
-            data = ["TTTAATAGTGCTATTGGCAAAATTC", "TTGGAGCTAAGTTGTTTAACAAG", "AACCATAATGCA", "N", "VAO",
-                    "28274", "29533"]
-        if s == "HSV1.2":
-            data = ["TATTGGTGCGATGGCGACAC", "CTTTCCGCATGTGGGCTCTC", "GCGGGTAGGGTATGGGGCGGGG", "US4", "HHT",
-                    "", ""]
-        if s == "BDT.2":
-            data = ["TCGAACGCGTGGAATGG", "GGCCGTTGGCTTCAAATAGA", "AGACCCAGGGCGCACGCTGTC", "pIS1001", "BDT",
-                    "", ""]
-        if s == "BDT.3":
-            data = ["GGCGACAGCGAGACAGAATC", "GCCGCCTTGGCTCACTT", "CGTGCAGATAGGCTTTTAGCTTGAGCGC", "hIS1001", "BDT",
-                    "", ""]
+        if s == "":
+            data = []
 
         """ 
         Llama a la funcion self.assign_primers y le pasa como parametros los primers y la informacion adicional y el 
@@ -957,7 +823,7 @@ class MainWindow(QMainWindow, QComboBox, QApplication, QTabWidget, ali_ui.Ui_Mai
         from Bio import SeqIO
         from Bio import Align
 
-        one_and_wrong = ['E484K', 'N501Y', 'K417T', 'K417N', 'NCO2.6', 'E484Q', 'P681R', 'L452R', 'VAR11', 'VAR13']
+        one_and_wrong = []
 
         pr = ''
         file = enumerate_files(file2)
@@ -1113,64 +979,3 @@ def inicio():
     application.show()  # Mostrar
     # sys.exit(app.exec())  # Salir
     app.exec()
-
-
-def filtros_final(filename):
-    read_file = pd.read_excel(filename, sheet_name='Bad')
-    lista_referencias = read_file.Registro
-    lista_referencias = lista_referencias.drop_duplicates()
-
-    amplicon = []
-    probeok = []
-    lista_1 = [0, 1, 2, 3, 4]
-    lista_2 = [10, 11, 12, 13, 14, 20, 21, 22, 23, 24, 30, 31, 32, 33, 34, 40, 41, 42, 43, 44]
-
-    chancu_ceros(read_file['Chain'], lista_1, lista_2)
-    chancu_ceros(read_file['CHAIN2'], lista_1, lista_2)
-    chancu_ceros(read_file['SeqGen'], lista_1, lista_2)
-
-    for i in lista_referencias:
-        var_check = read_file.loc[(read_file['Registro'] == i)]
-
-        resta = max(var_check['Inicio']) - min(var_check['Inicio'])
-
-        if len(var_check) == 3:
-            if -500 < resta < 500:
-                amplicon.append('Ok')
-                amplicon.append('Ok')
-                amplicon.append('Ok')
-            else:
-                amplicon.append('No Ok')
-                amplicon.append('No Ok')
-                amplicon.append('No Ok')
-
-        inicio_forward = var_check.iloc[0]['Inicio']
-        inicio_reverse = var_check.iloc[1]['Inicio']
-        inicio_probe = var_check.iloc[2]['Inicio']
-
-        if int(inicio_forward) < int(inicio_probe) < int(inicio_reverse) or \
-                int(inicio_reverse) < int(inicio_probe) < int(inicio_forward):
-            probeok.append('Ok')
-            probeok.append('Ok')
-            probeok.append('Ok')
-        else:
-            probeok.append('No Ok')
-            probeok.append('No Ok')
-            probeok.append('No Ok')
-
-    read_file['Amplicon'] = pd.DataFrame(amplicon)
-    read_file['ProbeOk'] = pd.DataFrame(probeok)
-
-    return read_file
-
-
-def chancu_ceros(row, lista_1, lista_2):
-    for w, j in zip(row, range(len(row))):
-        if w in lista_1:
-            row[j] = '00' + str(w)
-
-        elif w in lista_2:
-            row[j] = '0' + str(w)
-
-        else:
-            row[j] = str(row[j])
