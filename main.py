@@ -145,12 +145,6 @@ class Insilico:
         else:
             path = os.getcwd()
 
-        image1 = Image.open(os.path.join(path, "Sources/Logo_nuevo.png"))
-        image1 = image1.resize((150, 50))
-        self.test = ImageTk.PhotoImage(image1)
-        self.web = Button(master, command=abrir_pagina_web, image=self.test, compound=TOP, bg='white')
-        self.web.place(relx=0.01, rely=0.01)
-
         self.etiqueta = Label(master, text="IN SILICO ANALYSIS", font=("Century Gothic", 30, "bold"), bg='white')
         self.etiqueta.pack()
 
@@ -907,10 +901,6 @@ def datos_cross4(name1, name2, name3, name4, diana):
     oligos4 = fd.askopenfilename()
 
     preparar_cross(filename, name1, name2, name3, name4, oligos1, oligos2, oligos3, oligos4, diana)
-
-
-def abrir_pagina_web():
-    webbrowser.open_new("https://www.certest.es/")
 
 
 if __name__ == '__main__':
