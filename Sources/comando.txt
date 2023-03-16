@@ -1,0 +1,1 @@
+blastn -task blastn-short -db nt -query primers.fasta -evalue 10000 -remote -out Treponema pallidum.txt -max_target_seqs 8000 -reward 1 -penalty -1 -outfmt "6 qseqid sacc sstart send qstart qend mismatch sskingdoms sblastnames sscinames sstrand evalue qseq sseq"
